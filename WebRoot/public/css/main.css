@@ -1,0 +1,49 @@
+/* .lat-nav{
+ position: fixed; 
+	width: 100%;
+	top: 0;
+}
+
+
+.container-left{
+	position: fixed;
+	float: left;
+	height: 100%;
+	background-color: #393D49;
+	top: 60px;
+}
+
+
+.container-right{
+	display: inline-block;
+	position: absolute;
+	left: 200px;
+	right: 0px;
+	top: 60px;
+}
+
+ */
+ 
+.lat-nav{
+ 	position: fixed; 
+	width: 100%;
+	top: 0;
+}
+
+ 
+.container-left{
+	position: fixed;
+	width : 200px;
+	height:100%;
+	top:60px;
+	background-color: #393D49;
+}
+ 
+ 
+.container-right{
+	margin-left: 200px;
+	margin-top: 60px;
+	height: 100%;
+}
+
+ 

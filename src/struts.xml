@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<!-- 开启动态方法调用 -->
+    <constant name="struts.enable.DynamicMethodInvocation" value="true" />
+    <!-- 开发模式 开启  -->
+    <constant name="struts.devMode" value="false" />
+    <!-- 设置struts主题 -->
+    <constant name="struts.ui.theme" value="simple" />
+    <!-- 设置后缀 -->
+	<constant name="struts.action.extension" value="php" />
+	<!-- 限制上传文件大小 -->
+	<!-- <constant name="struts.multipart.maxSize" value="15728640"></constant> -->
+	
+	
+	<package name="default" extends="struts-default">
+		<!-- 捕获404页面 -->
+		<default-action-ref name="404" />
+		<action name="404">
+			<result>/WEB-INF/error/404.html</result>
+		</action>
+	</package>
+	
+	<include file="student.xml"></include>
+	<include file="user.xml"></include>
+	<include file="admin.xml"></include>
+	
+</struts>
