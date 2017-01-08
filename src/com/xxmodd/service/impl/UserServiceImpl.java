@@ -2,8 +2,8 @@ package com.xxmodd.service.impl;
 
 import com.xxmodd.dao.UserDao;
 import com.xxmodd.entity.Admin;
+import com.xxmodd.service.UserService;
 import com.xxmodd.util.MD5Util;
-import com.xxxmodd.service.UserService;
 
 /**
  * 类名: AdminServiceImpl

@@ -49,7 +49,7 @@ public class hibernateTest {
 	 */
 	@Test
 	public void getStuByActTest() {
-		System.out.println(sdi.getStuByAct(1));
+		System.out.println(sdi.getStuByAct(190920177));
 	}
 	
 	/* 
@@ -162,7 +162,7 @@ public class hibernateTest {
 	/*---------------华丽的分割线，以下是关于所有用户的操作---------------------*/
 	@Test
 	public void adminLoginTest(){
-		System.out.println(adi.admLogin(1909, "admin123"));
+		System.out.println(adi.admLogin(1909, "918546E20133166A008194442E89CA6D"));
 	}
 	
 	@Test

@@ -30,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<!-- 侧边导航	end -->
 			<div class="container-right">
 				<fieldset class="layui-elem-field layui-field-title">
-					<legend>基本信息</legend>
+					<legend>请输入新密码</legend>
 						<form class="layui-form" style=" margin-right: 20%;">
 						
 							<div class="layui-form-item">

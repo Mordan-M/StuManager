@@ -8,9 +8,8 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
-import com.xxmodd.entity.CountForInfo;
 import com.xxmodd.entity.Student;
-import com.xxxmodd.service.StudentService;
+import com.xxmodd.service.StudentService;
 
 /**
  * 类名: StudentAction

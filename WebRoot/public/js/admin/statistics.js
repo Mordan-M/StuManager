@@ -298,7 +298,7 @@ function echartForSex(infos){
 	    },
 	    series: [
 	        {
-	            name:'访问来源',
+	            name:'班级',
 	            type:'pie',
 	            selectedMode: 'single',
 	            radius: [0, '30%'],
@@ -316,7 +316,7 @@ function echartForSex(infos){
 	            data: classCntData
 	        },
 	        {
-	            name:'访问来源',
+	            name:'性别',
 	            type:'pie',
 	            radius: ['40%', '55%'],
 

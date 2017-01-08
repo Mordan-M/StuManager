@@ -42,7 +42,7 @@
 											<label class="layui-form-label">用&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;户</label>
 												<div class="layui-input-block">
 													<select name="userType" lay-verify="required" >
-														<option value=""></option>
+														<!-- <option value=""></option> -->
 														<option value="2">管理员</option>
 														<option value="1">学生</option>
 													</select>

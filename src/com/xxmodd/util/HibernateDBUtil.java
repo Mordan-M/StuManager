@@ -6,6 +6,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.transform.Transformers;
 /**
@@ -15,16 +16,19 @@ import org.hibernate.transform.Transformers;
  * @data 2016-12-27 t下午5:05:22
  */
 public class HibernateDBUtil {
-	private static Session session;
 	
-	public HibernateDBUtil(Session session) {
-		HibernateDBUtil.session = session;
+	private SessionFactory sessionFactory;
+	
+	public HibernateDBUtil(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
 	}
-	
+
 	// 添加对象
 	public boolean add(Object obj) {
+		Session session;
 		Transaction tr = null;
 		try {
+			session = sessionFactory.getCurrentSession();
 			tr = session.beginTransaction();
 			session.save(obj);
 			tr.commit();
@@ -43,9 +47,10 @@ public class HibernateDBUtil {
 
 	// 修改对象,对象信息必须完整
 	public boolean update(Object obj) {
+		Session session;
 		Transaction tr = null;
 		try {
-//			session = HibernateSessionFactory.getCurrentSession();
+			session = sessionFactory.getCurrentSession();
 			tr = session.beginTransaction();
 			session.update(obj);
 			tr.commit();
@@ -64,9 +69,10 @@ public class HibernateDBUtil {
 	
 	// 删除对象，对象只需要传入主键信息
 	public boolean delete(Object obj) {
+		Session session;
 		Transaction tr = null;
 		try {
-//			session = HibernateSessionFactory.getCurrentSession();
+			session = sessionFactory.getCurrentSession();
 			tr = session.beginTransaction();
 			session.delete(obj);
 			tr.commit();
@@ -81,36 +87,20 @@ public class HibernateDBUtil {
 			}
 			return false;
 		} 
-		/* 
-		  finally {
-			try {
-				close();
-			} catch (Exception e2) {
-				return false;
-			}
-		}
-		 */
 	}
 
 	// hql查询对象
 	@SuppressWarnings("rawtypes")
 	public List hqlQuery(String hql,Object ...parms) {
+		Session session;
 		List list;
 		Transaction tr = null;
 		Query query;
 		try {
+			session = sessionFactory.getCurrentSession();
 			tr = session.beginTransaction();
 			query = session.createQuery(hql);
-			//String 类型 ， int 类型 ，其他。
 			for(int i=0;i<parms.length;i++){
-				/*String classname = parms[i].getClass().getName();
-				if(classname.equals("java.lang.String")){
-					query.setString(i,(String)parms[i]);
-				}else if(classname.equals("java.lang.Integer")){
-					query.setInteger(i,(Integer)parms[i]);
-				}else {
-					query.setTimestamp(i,(Timestamp)parms[i]);
-				}*/
 				query.setParameter(i ,parms[i] );
 			}
 			list = query.list();
@@ -130,27 +120,17 @@ public class HibernateDBUtil {
 
 	
 	// sql查询对象 ，并包装成hibernate关联对象
-	/**
-	 * @param sql
-	 * @param obj
-	 * @param parms
-	 * @return
-	 */
 	@SuppressWarnings("rawtypes")
 	public List sqlHbEntityQuery(String sql,Class obj,Object ...parms) {
+		Session session;
 		List list;
 		Transaction tr = null;
 		Query query;
 		try {
+			session = sessionFactory.getCurrentSession();
 			tr = session.beginTransaction();
 			query = session.createSQLQuery(sql).addEntity(obj);
 			for(int i=0;i<parms.length;i++){
-				/*String classname = parms[i].getClass().getName();
-				if(classname.equals("java.lang.String")){
-					query.setString(i,(String)parms[i]);
-				}else{
-					query.setInteger(i,(Integer)parms[i]);
-				}*/
 				query.setParameter(i ,parms[i] );
 			}
 			list = query.list();
@@ -171,10 +151,12 @@ public class HibernateDBUtil {
 	// sql查询对象 ，并包装成不受Hibernate管理的实体。
 	@SuppressWarnings("rawtypes")
 	public List sqlEntityQuery(String sql, Class obj, Object... parms) {
+		Session session;
 		List list;
 		Transaction tr = null;
 		Query query;
 		try {
+			session = sessionFactory.getCurrentSession();
 			tr = session.beginTransaction();
 			query = session.createSQLQuery(sql).setResultTransformer(Transformers.aliasToBean(obj));
 			for (int i = 0; i < parms.length; i++) {
@@ -195,13 +177,15 @@ public class HibernateDBUtil {
 		return list;
 	}
 	
-	// sql查询对象 ，返回Object数组
+	// sql查询对象 ，返回List<Object[]>
 	@SuppressWarnings("rawtypes")
 	public List sqlObjectQuery(String sql, Object... parms) {
-		List<Object[]> list;
+		Session session;
+		List list;
 		Transaction tr = null;
 		Query query;
 		try {
+			session = sessionFactory.getCurrentSession();
 			tr = session.beginTransaction();
 			query = session.createSQLQuery(sql);
 			for (int i = 0; i < parms.length; i++) {
@@ -219,25 +203,20 @@ public class HibernateDBUtil {
 			}
 			return null;
 		}
-//		return list.size()==0? null : (Object)list.get(0);
 		return list;
 	}
 	
 	// sql执行更新或删除
 	public boolean sqlExecute(String sql,Object ...parms) {
+		Session session;
 		int result;
 		Transaction tr = null;
 		SQLQuery  query;
 		try {
+			session = sessionFactory.getCurrentSession();
 			tr = session.beginTransaction();
 			query = session.createSQLQuery(sql);
 			for(int i=0;i<parms.length;i++){
-				/*String classname = parms[i].getClass().getName();
-				if(classname.equals("java.lang.String")){
-					query.setString(i,(String)parms[i]);
-				}else{
-					query.setInteger(i,(Integer)parms[i]);
-				}*/
 				query.setParameter(i ,parms[i] );
 			}
 			result = query.executeUpdate();
@@ -256,11 +235,5 @@ public class HibernateDBUtil {
 			return false;
 		}
 		return true;
-	}
-	
-	// 关闭session
-	private static void close() {
-//		HibernateSessionFactory.closeCurrentSession();
-		session.close();
 	}
 }

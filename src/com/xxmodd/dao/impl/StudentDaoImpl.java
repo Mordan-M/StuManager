@@ -2,7 +2,6 @@ package com.xxmodd.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import com.xxmodd.dao.StudentDao;
@@ -22,21 +21,13 @@ public class StudentDaoImpl implements StudentDao{
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
-	
-	private Session getSession(){
-//		Session s = sessionFactory.getCurrentSession();
-		
-//		return (s==null || !s.isOpen()) ? sessionFactory.openSession()  : s;
-		return sessionFactory.openSession();
-	}
-	
 	/*
 	 * 获取所有学生信息
 	 */
 	@Override
 	public List<Student> getAllStuInfos(){
 		String hql = "from Student ";
-		HibernateDBUtil op = new HibernateDBUtil(getSession());
+		HibernateDBUtil op = new HibernateDBUtil(sessionFactory);
 		@SuppressWarnings("unchecked")
 		List<Student> stuList = op.hqlQuery(hql);
 		return stuList;
@@ -48,7 +39,7 @@ public class StudentDaoImpl implements StudentDao{
 	@Override
 	public Student getStuByAct(int stuId){
 		String sql = "SELECT * FROM `student` WHERE stu_id = ? ";
-		HibernateDBUtil op = new HibernateDBUtil(getSession());
+		HibernateDBUtil op = new HibernateDBUtil(sessionFactory);
 		@SuppressWarnings("unchecked")
 		List<Student> list = (List<Student>)op.sqlHbEntityQuery(sql,Student.class, stuId);
 		return list.size()>0?list.get(0):null;
@@ -60,7 +51,7 @@ public class StudentDaoImpl implements StudentDao{
 	@Override
 	public boolean updateStuByStuId(Student stu) {
 		String sql = "UPDATE `student` SET  `stu_name`=?, `stu_sex`=?, `stu_age`=?, `stu_phone`=?, `stu_address`=?, `class_name`=? WHERE (`stu_id`=?)";
-		HibernateDBUtil op = new HibernateDBUtil(getSession());
+		HibernateDBUtil op = new HibernateDBUtil(sessionFactory);
 		return op.sqlExecute(sql, stu.getStuName(),stu.getStuSex(),stu.getStuAge(),stu.getStuPhone(),stu.getStuAddress(),stu.getClassName(),stu.getStuId());
 	}
 	
@@ -70,7 +61,7 @@ public class StudentDaoImpl implements StudentDao{
 	@Override
 	public boolean addStu(Student stu) {
 		String sql = "INSERT INTO `student` (`stu_id`, `stu_name`, `stu_sex`, `stu_age`, `stu_phone`, `stu_address`, `class_name`, `stu_psw`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-		HibernateDBUtil op = new HibernateDBUtil(getSession());
+		HibernateDBUtil op = new HibernateDBUtil(sessionFactory);
 		return op.sqlExecute(sql, stu.getStuId(),stu.getStuName(),stu.getStuSex(),stu.getStuAge(),stu.getStuPhone(),stu.getStuAddress(),stu.getClassName(),stu.getStuPsw());
 	}
 	
@@ -80,7 +71,7 @@ public class StudentDaoImpl implements StudentDao{
 	@Override
 	public boolean deleteStu(Student stu){
 //		String sql = "DELETE FROM `student` WHERE (`stu_id`=?)";
-		HibernateDBUtil op = new HibernateDBUtil(getSession());
+		HibernateDBUtil op = new HibernateDBUtil(sessionFactory);
 //		return op.sqlExecute(sql, stuId);
 		return op.delete(stu);
 	}
@@ -92,14 +83,7 @@ public class StudentDaoImpl implements StudentDao{
 	@Override
 	public List<Object[]> getStuCntForClass(){
 		String sql = "SELECT `class_name` as 'className' ,COUNT(`stu_id`) as 'stuCnt'  FROM `student` GROUP BY `class_name`";
-		HibernateDBUtil op = new HibernateDBUtil(getSession());
-		/*
-			@SuppressWarnings("unchecked")
-			List<CountForInfo> list = (List<CountForInfo>)op.sqlEntityQuery(sql, CountForInfo.class);
-			return list;
-		*/
-//		System.out.println(Arrays.deepToString(op.sqlObjectQuery(sql)));
-		
+		HibernateDBUtil op = new HibernateDBUtil(sessionFactory);
 		return (List<Object[]>)op.sqlObjectQuery(sql);
 	}
 	
@@ -110,7 +94,7 @@ public class StudentDaoImpl implements StudentDao{
 	@SuppressWarnings("unchecked")
 	public List<Object[]> getStuCntForSexGroupByClass(){
 		String sql = "SELECT `class_name` AS className,`stu_sex` as 'stuSex' ,COUNT(`stu_id`) as 'stuCnt'  FROM `student`  GROUP BY `stu_sex` DESC,`class_name`";
-		HibernateDBUtil op = new HibernateDBUtil(getSession());
+		HibernateDBUtil op = new HibernateDBUtil(sessionFactory);
 		return (List<Object[]>)op.sqlObjectQuery(sql);
 	}
 	
@@ -122,7 +106,7 @@ public class StudentDaoImpl implements StudentDao{
 	@SuppressWarnings("unchecked")
 	public List<Object[]> getStuAgeGroupByAge(){
 		String sql = "SELECT `stu_age` , COUNT(stu_id) FROM student GROUP BY `stu_age` ";
-		HibernateDBUtil op = new HibernateDBUtil(getSession());
+		HibernateDBUtil op = new HibernateDBUtil(sessionFactory);
 		return (List<Object[]>)op.sqlObjectQuery(sql);
 	}
 	
@@ -133,7 +117,7 @@ public class StudentDaoImpl implements StudentDao{
 	@SuppressWarnings("unchecked")
 	public List<Object[]> getStuCntGroupBySex(){
 		String sql = "SELECT `stu_sex` , COUNT(stu_id) FROM student GROUP BY `stu_sex` ";
-		HibernateDBUtil op = new HibernateDBUtil(getSession());
+		HibernateDBUtil op = new HibernateDBUtil(sessionFactory);
 		return (List<Object[]>)op.sqlObjectQuery(sql);
 	}
 	
@@ -144,30 +128,8 @@ public class StudentDaoImpl implements StudentDao{
 	@Override
 	public boolean updatePswByStuId(String stuPsw , Integer stuId){
 		String sql = "UPDATE `student` SET `stu_psw`= ? WHERE `stu_id`= ?";
-		HibernateDBUtil op = new HibernateDBUtil(getSession());
+		HibernateDBUtil op = new HibernateDBUtil(sessionFactory);
 		return op.sqlExecute(sql, stuPsw , stuId);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

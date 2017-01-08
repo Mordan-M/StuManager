@@ -9,7 +9,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.xxmodd.entity.Admin;
 import com.xxmodd.entity.Student;
-import com.xxxmodd.service.UserService;
+import com.xxmodd.service.UserService;
 
 /**
  * 类名: UserAction

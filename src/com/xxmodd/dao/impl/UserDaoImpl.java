@@ -1,11 +1,8 @@
 package com.xxmodd.dao.impl;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import com.xxmodd.dao.UserDao;
-import com.xxmodd.entity.Admin;
-import com.xxmodd.entity.Student;
 import com.xxmodd.util.HibernateDBUtil;
 
 /**
@@ -22,18 +19,13 @@ public class UserDaoImpl implements UserDao{
 		this.sessionFactory = sessionFactory;
 	}
 	
-	private Session getSession(){
-		Session s = sessionFactory.openSession();
-//		return (s==null || !s.isOpen()) ? sessionFactory.openSession()  : s;
-		return s;
-	}
 	/*
 	 * 管理员登入
 	 */
 	@Override
 	public boolean admLogin(Integer uname , String psw){
 		String sql = "SELECT * FROM `admin` WHERE `adm_id` = ? and `adm_psw` = ?";
-		HibernateDBUtil op = new HibernateDBUtil(getSession());
+		HibernateDBUtil op = new HibernateDBUtil(sessionFactory);
 		return op.sqlObjectQuery(sql, uname, psw).size()!=0;
 	}
 	
@@ -43,7 +35,7 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public boolean stuLogin(Integer act , String psw){
 		String sql = "SELECT * FROM `student` WHERE `stu_id` = ? and `stu_psw` = ?";
-		HibernateDBUtil op = new HibernateDBUtil(getSession());
+		HibernateDBUtil op = new HibernateDBUtil(sessionFactory);
 		return op.sqlObjectQuery(sql, act, psw).size()!=0;
 	}
 	

@@ -19,9 +19,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<legend>学生信息统计</legend>
 						<div class="layui-field-box">
 							 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-	    					<div id="class_cnt_echart"   style="width: 800px;height:494px; display:inline-block; " ></div>  <!-- display: inline" -->
-							<div id="age_cnt_echart"   style="width: 800px;height:494px; display:inline-block;" ></div> <!-- style="width: 800px;height:494px; display: inline" -->
-							<div id="sex_cnt_echart" style="width: 1200px;height:741px; display:inline-block;"></div> <!-- style="width: 1200px;height:741px;" -->
+	    					<div id="class_cnt_echart"   style="width: 700px;height:432px; display:inline-block; " ></div>  <!-- display: inline" -->
+							<div id="age_cnt_echart"   style="width: 700px;height:432px; display:inline-block;" ></div> <!-- style="width: 800px;height:494px; display: inline" -->
+							<div id="sex_cnt_echart" style="width: 1200px;height:500px; display:inline-block;"></div> <!-- style="width: 1200px;height:741px;" -->
 						</div>
 					</fieldset>
 				</div>
